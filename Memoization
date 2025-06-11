@@ -1,0 +1,27 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int countRecur(vector<int>& coins, int n, int target, vector<vector<int>> &memo) {
+  
+    if (target == 0) return 1;
+
+    if (target < 0 || n == 0) return 0;
+    
+    if (memo[n-1][target]!=-1) return memo[n-1][target];
+
+    return memo[n-1][target] =  countRecur(coins, n, target - coins[n-1], memo) + 
+        countRecur(coins, n - 1, target, memo);
+}
+
+int count(vector<int> &coins, int target) {
+    
+    vector<vector<int>> memo(coins.size(), vector<int>(target+1, -1));
+    return countRecur(coins, coins.size(), target, memo);
+}
+
+int main() {
+    vector<int> coins = {1, 2, 3};
+    int target = 5;
+    cout << count(coins, target);
+    return 0;
+}
